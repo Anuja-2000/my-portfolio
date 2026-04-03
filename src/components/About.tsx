@@ -7,7 +7,7 @@ export default function About() {
         <h2 className="text-4xl font-bold text-gray-900 mb-8">About Me</h2>
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg h-80 flex items-center justify-center">
+          <div className="rounded-lg h-80 flex items-center justify-center">
             <div className="relative w-72 h-72 rounded-lg overflow-hidden">
               <Image
                 src="/profile.jpg"

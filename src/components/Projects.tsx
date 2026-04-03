@@ -24,7 +24,7 @@ export default function Projects() {
       description: "Article writing platform with intelligent topic recommendation engine to help writers discover trending and relevant topics.",
       tech: ["JavaScript", "Node.js", "Recommendation Engine", "MongoDB"],
       link: "https://github.com/Anuja-2000/article-topic-platform",
-      image: "https://images.unsplash.com/photo-1455849318169-8c8e6a1e9dfa?w=500&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1483389127117-b6a2102724ae?w=500&h=300&fit=crop",
     },
     {
       id: 4,
@@ -40,7 +40,7 @@ export default function Projects() {
       description: "Automated testing framework developed with Cypress and Cucumber for behavior-driven development and quality assurance.",
       tech: ["Cypress", "Cucumber", "JavaScript", "Testing"],
       link: "https://github.com/Anuja-2000/qa-group-app",
-      image: "https://images.unsplash.com/photo-1516534775068-bb57a52f4fee?w=500&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
     },
     {
       id: 6,
