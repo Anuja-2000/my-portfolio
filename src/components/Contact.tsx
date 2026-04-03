@@ -183,8 +183,8 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 disabled={isLoading}
-                rows={5}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:bg-gray-100"
+                rows={5}                
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:bg-gray-100 text-black"
                 placeholder="Your message here..."
               ></textarea>
             </div>
