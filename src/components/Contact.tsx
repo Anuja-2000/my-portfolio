@@ -2,12 +2,27 @@
 
 import { useState } from 'react';
 
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface ResponseData {
+  success?: boolean;
+  message?: string;
+  error?: string;
+}
+
 export default function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     message: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -17,11 +32,38 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: '', email: '', message: '' });
-    alert('Thank you for your message! I will get back to you soon.');
+    setIsLoading(true);
+    setStatus('idle');
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data: ResponseData = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus('success');
+        setStatusMessage('✅ Message sent! I will get back to you soon.');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setStatusMessage(data.error || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+      setStatusMessage('An error occurred. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -45,8 +87,8 @@ export default function Contact() {
                 <span className="text-2xl">📧</span>
                 <div>
                   <p className="font-semibold text-gray-900">Email</p>
-                  <a href="mailto:your-email@example.com" className="text-blue-600 hover:underline">
-                    your-email@example.com
+                  <a href="mailto:anujawij@gmail.com" className="text-blue-600 hover:underline">
+                    anujawij@gmail.com
                   </a>
                 </div>
               </div>
@@ -55,7 +97,7 @@ export default function Contact() {
                 <span className="text-2xl">📍</span>
                 <div>
                   <p className="font-semibold text-gray-900">Location</p>
-                  <p className="text-gray-600">Your City, Country</p>
+                  <p className="text-gray-600">Piliyandala, Western province, Sri Lanka</p>
                 </div>
               </div>
 
@@ -65,7 +107,7 @@ export default function Contact() {
                   <p className="font-semibold text-gray-900">Social Links</p>
                   <div className="flex gap-4 mt-2">
                     <a
-                      href="https://github.com"
+                      href="https://github.com/Anuja-2000"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
@@ -73,7 +115,7 @@ export default function Contact() {
                       GitHub
                     </a>
                     <a
-                      href="https://linkedin.com"
+                      href="https://linkedin.com/in/anuja-wijewardana"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
@@ -81,7 +123,7 @@ export default function Contact() {
                       LinkedIn
                     </a>
                     <a
-                      href="https://twitter.com"
+                      href="https://twitter.com/anujawij"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
@@ -107,7 +149,8 @@ export default function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                disabled={isLoading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:bg-gray-100"
                 placeholder="Your name"
               />
             </div>
@@ -123,7 +166,8 @@ export default function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                disabled={isLoading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:bg-gray-100"
                 placeholder="your-email@example.com"
               />
             </div>
@@ -138,17 +182,31 @@ export default function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
+                disabled={isLoading}
                 rows={5}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:bg-gray-100"
                 placeholder="Your message here..."
               ></textarea>
             </div>
 
+            {/* Status Messages */}
+            {status === 'success' && (
+              <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                {statusMessage}
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                {statusMessage}
+              </div>
+            )}
+
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              disabled={isLoading}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-blue-400 disabled:cursor-not-allowed"
             >
-              Send Message
+              {isLoading ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>
