@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         <p>We've received your message and will get back to you as soon as possible.</p>
         <p>Your message:</p>
         <blockquote>${escapeHtml(message).replace(/\n/g, '<br>')}</blockquote>
-        <p>Best regards,<br>Your Portfolio Team</p>
+        <p>Best regards,<br>Anuja Wijewardana</p>
       `,
     };
 

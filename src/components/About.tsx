@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function About() {
   return (
     <section id="about" className="py-16 bg-white">
@@ -6,9 +8,15 @@ export default function About() {
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg h-80 flex items-center justify-center">
-            <div className="text-white text-center">
-              <div className="text-6xl mb-2">👨‍💻</div>
-              <p>Your Profile Image</p>
+            <div className="relative w-72 h-72 rounded-lg overflow-hidden">
+              <Image
+                src="/profile.jpg"
+                alt="Profile Image"
+                loading='eager'
+                fill
+                sizes="288px"
+                className="object-cover object-center scale-125"
+              />
             </div>
           </div>
 
